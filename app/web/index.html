@@ -629,6 +629,7 @@ body.video .tarjetaCanal{display:none}
       <button data-tab="mes" role="tab" aria-selected="false">El mes</button>
       <button data-tab="fondos" role="tab" aria-selected="false">Productos</button>
       <button data-tab="rendimiento" role="tab" aria-selected="false">Rendimiento</button>
+      <button data-tab="finanzas" role="tab" aria-selected="false">Finanzas</button>
       <button data-tab="datos" role="tab" aria-selected="false">Mis datos</button>
       <button data-tab="ayuda" role="tab" aria-selected="false">Ayuda</button>
     </nav>
@@ -803,6 +804,8 @@ body.video .tarjetaCanal{display:none}
   </section>
 </div>
 
+<div class="panel" id="tab-finanzas" role="tabpanel" hidden><div id="finanzas-root"></div></div>
+
 <div class="panel" id="tab-datos" role="tabpanel" hidden><div id="editor"></div></div>
 
 <div class="panel" id="tab-ayuda" role="tabpanel" hidden>
@@ -892,7 +895,7 @@ body.video .tarjetaCanal{display:none}
   // Con file:// no se puede anadir "?v=": algunos navegadores no encuentran
   // el archivo. Ahi basta con la revalidacion por fecha de modificacion.
   var sello = location.protocol === "file:" ? "" : "?v=" + Date.now();
-  ["datos.js", "canal.js", "graficos.js", "app.js", "editor.js"].forEach(function (archivo) {
+  ["datos.js", "canal.js", "graficos.js", "app.js", "editor.js", "finanzas.js"].forEach(function (archivo) {
     var s = document.createElement("script");
     s.src = archivo + sello;
     s.async = false;
