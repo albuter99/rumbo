@@ -47,6 +47,17 @@ class FinanzasIsolationTest(unittest.TestCase):
         self.assertFalse((self.root / "copias").exists())
         self.assertTrue((self.root / "finanzas" / "finanzas.json").exists())
 
+    def test_default_category_ids_stable_before_first_save(self):
+        first = self.data()
+        second = self.data()
+        self.assertEqual(first["categorias"], second["categorias"])
+        categoria = next(c["id"] for c in first["categorias"] if c["tipo"] == "ingreso")
+        response = self.client.post("/api/finanzas/movimientos", json={
+            "fecha": "2026-10-05", "tipo": "ingreso", "concepto": "Saldo",
+            "importe": "1109", "categoria": categoria})
+        self.assertEqual(response.status_code, 200, response.get_data(as_text=True))
+        self.assertEqual(self.portfolio.read_bytes(), self.original)
+
     def test_invalid_batch_is_atomic(self):
         cid = next(c["id"] for c in self.data()["categorias"] if c["tipo"] == "gasto")
         base = {"fecha": "2026-10-10", "tipo": "gasto", "concepto": "Test", "importe": 12, "categoria": cid}
