@@ -1,0 +1,23 @@
+name: Finanzas isolated tests
+on:
+  push:
+    branches: [feature/finanzas]
+  pull_request:
+    branches: [main]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: pip install flask openpyxl
+      - name: Compile Python files
+        run: python -m compileall -q app
+      - name: Run isolated tests
+        run: python -m unittest discover -s tests -p 'test_finanzas.py' -v
+      - name: Check original portfolio logic unchanged
+        run: |
+          git diff --exit-code origin/main -- app/motor.py app/almacen.py app/importar.py app/exportar.py app/buscar.py app/plantilla.py app/web/app.js app/web/editor.js app/web/graficos.js
