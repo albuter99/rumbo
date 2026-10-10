@@ -35,6 +35,10 @@ app = Flask(__name__, static_folder=None)
 app.json.sort_keys = False   # respeta el orden de tipos y listas al mandarlos al navegador
 cerrojo = threading.RLock()  # el motor no admite dos cálculos (ni dos escrituras) a la vez
 
+# Finanzas tiene almacenamiento y rutas independientes, nunca comparte cartera.json.
+from . import finanzas
+finanzas.montar(app, DATOS)
+
 
 # ---------------------------------------------------------------- archivos
 
