@@ -26,8 +26,8 @@ def nuevo():
     cats = []
     for tipo, grupos in BASE_CATEGORIAS.items():
         for nombre, subs in grupos.items():
-            cid = uuid.uuid4().hex
-            cats.append({"id": cid, "tipo": tipo, "nombre": nombre, "subcategorias": [{"id": uuid.uuid4().hex, "nombre": n} for n in subs]})
+            cid = uuid.uuid5(uuid.NAMESPACE_URL, "rumbo-finanzas:categoria:" + tipo + ":" + nombre).hex
+            cats.append({"id": cid, "tipo": tipo, "nombre": nombre, "subcategorias": [{"id": uuid.uuid5(uuid.NAMESPACE_URL, "rumbo-finanzas:subcategoria:" + tipo + ":" + nombre + ":" + n).hex, "nombre": n} for n in subs]})
     return {"version": 1, "movimientos": [], "categorias": cats, "cuentas": []}
 
 
